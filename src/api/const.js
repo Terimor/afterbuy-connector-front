@@ -1,0 +1,1 @@
+export const baseUrl = 'https://afterbuy-connector.herokuapp.com';
