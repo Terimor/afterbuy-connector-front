@@ -33,6 +33,7 @@ const SoldItems = () => {
             setPage={setPage}
             rowsPerPage={rowsPerPage}
             setRowsPerPage={setRowsPerPage}
+            tableHeaderText="Sold items"
         />
     );
 };

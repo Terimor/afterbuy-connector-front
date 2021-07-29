@@ -64,7 +64,21 @@ const useStyles = makeStyles((theme) => ({
 
 const EnhancedTable = (props) => {
     const classes = useStyles();
-    const {rows, columns, order, setOrder, orderBy, setOrderBy, selected, setSelected, page, setPage, rowsPerPage, setRowsPerPage} = props;
+    const {
+        rows,
+        columns,
+        order,
+        setOrder,
+        orderBy,
+        setOrderBy,
+        selected,
+        setSelected,
+        page,
+        setPage,
+        rowsPerPage,
+        setRowsPerPage,
+        tableHeaderText
+    } = props;
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -110,14 +124,14 @@ const EnhancedTable = (props) => {
         setPage(0);
     };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (key) => selected.indexOf(key) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length}/>
+                <EnhancedTableToolbar numSelected={selected.length} tableHeaderText={tableHeaderText}/>
                 <TableContainer>
                     <Table
                         className={classes.table}
@@ -139,23 +153,23 @@ const EnhancedTable = (props) => {
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
+                                            onClick={(event) => handleClick(event, row.id)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row.id}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox" align="center">
                                                 <Checkbox
                                                     checked={isItemSelected}
-                                                    inputProps={{ 'aria-labelledby': labelId }}
+                                                    inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
                                             {columns.map((column, columnIndex) => (
@@ -179,7 +193,7 @@ const EnhancedTable = (props) => {
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}/>
+                    onRowsPerPageChange={handleChangeRowsPerPage}/>
             </Paper>
         </div>
     );
@@ -193,11 +207,12 @@ EnhancedTable.propTypes = {
     orderBy: PropTypes.string.isRequired,
     setOrderBy: PropTypes.func.isRequired,
     selected: PropTypes.array.isRequired,
-    setSelected: PropTypes.array.isRequired,
+    setSelected: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
     setPage: PropTypes.func.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
     setRowsPerPage: PropTypes.func.isRequired,
+    tableHeaderText: PropTypes.string.isRequired
 };
 
 export default EnhancedTable;

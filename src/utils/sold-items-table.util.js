@@ -1,10 +1,10 @@
 export const columns = [
-    {id: 'order_id', numeric: true, disablePadding: false, label: 'Order ID'},
-    {id: 'title', numeric: false, disablePadding: false, label: 'Title'},
-    {id: 'quantity', numeric: true, disablePadding: false, label: 'Quantity'},
-    {id: 'price', numeric: true, disablePadding: false, label: 'Price'},
-    {id: 'volume', numeric: true, disablePadding: false, label: 'Volume'},
-    {id: 'product_code', numeric: false, disablePadding: false, label: 'Product code'},
+    {id: 'order_id', label: 'Order ID'},
+    {id: 'title', label: 'Title'},
+    {id: 'quantity', label: 'Quantity'},
+    {id: 'price', label: 'Price'},
+    {id: 'volume', label: 'Volume'},
+    {id: 'product_code', label: 'Product code'},
 ];
 
 export const flattenResponse = (rows) => {
