@@ -7,6 +7,8 @@ import {columns, flattenRules} from '../../utils/category-rules-table.util';
 import {defaultCategory, defaultRule} from "../../constants/category.const";
 import RuleEditModal from "./components/RuleEditModal";
 
+let isRuleEditing = null;
+
 const CategoryForm = () => {
     const {id} = useParams();
     const [category, setCategory] = useState(defaultCategory);
@@ -17,13 +19,23 @@ const CategoryForm = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [editingRule, setEditingRule] = useState(null);
 
+    const openRuleModal = (ruleToEdit = null) => {
+        if (ruleToEdit) {
+            isRuleEditing = true;
+            setEditingRule(ruleToEdit);
+        } else {
+            isRuleEditing = false;
+            setEditingRule(defaultRule);
+        }
+    }
+
     const handleSetCategoryName = (event) => {
         setCategory({...category, name: event.target.value});
     }
 
     const handleEditClick = (editingRuleId) => {
         const ruleToEdit = category.rules.find((elem) => elem.id === editingRuleId);
-        setEditingRule(ruleToEdit);
+        openRuleModal(ruleToEdit);
     }
 
     const handleCloseModal = () => {
@@ -32,7 +44,7 @@ const CategoryForm = () => {
 
     const handleSaveRule = (editedRule) => {
         let newRules;
-        if (editedRule.id) {
+        if (isRuleEditing) {
             newRules = category.rules.map((elem) => elem.id === editedRule.id ? editedRule : elem);
         } else {
             newRules = [...category.rules, editedRule];
@@ -42,7 +54,15 @@ const CategoryForm = () => {
     }
 
     const handleAddRuleClick = () => {
-        setEditingRule(defaultRule);
+        openRuleModal();
+    }
+
+    const handleSaveCategoryClick = () => {
+        if (category.id) {
+            Api.categories.update(category);
+        } else {
+            Api.categories.create(category);
+        }
     }
 
     useEffect(() => {
@@ -75,7 +95,7 @@ const CategoryForm = () => {
                     </Button>
                 </Box>
                 <Box marginLeft="10px">
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary" onClick={handleSaveCategoryClick}>
                         Save
                     </Button>
                 </Box>

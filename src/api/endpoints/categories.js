@@ -14,4 +14,12 @@ const get = async (id) => {
     return data;
 }
 
-export default {get, getAll};
+const create = async (category) => {
+    return axios.post(`${baseUrl}/categories`, {category})
+}
+
+const update = async (category) => {
+    return axios.put(`${baseUrl}/categories`, {category})
+}
+
+export default {get, getAll, create, update};

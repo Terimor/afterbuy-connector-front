@@ -16,6 +16,9 @@ function App() {
                     <Route path="/sold-items">
                         <SoldItems/>
                     </Route>
+                    <Route path="/categories/create" exact>
+                        <CategoryForm/>
+                    </Route>
                     <Route path="/categories/:id">
                         <CategoryForm/>
                     </Route>
