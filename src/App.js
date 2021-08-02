@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import SoldItems from './pages/SoldItems';
 import CategoryForm from "./pages/CategoryForm";
+import Categories from "./pages/Categories";
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
                     </Route>
                     <Route path="/categories/:id">
                         <CategoryForm/>
+                    </Route>
+                    <Route path="/categories">
+                        <Categories/>
                     </Route>
                 </Switch>
             </Dashboard>

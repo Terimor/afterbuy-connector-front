@@ -66,9 +66,11 @@ const CategoryForm = () => {
     }
 
     useEffect(() => {
-        Api.categories.get(id).then((data) => {
-            setCategory(data.category);
-        })
+        if (id) {
+            Api.categories.get(id).then((data) => {
+                setCategory(data.category);
+            })
+        }
     }, [id]);
 
     return (
