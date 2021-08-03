@@ -22,3 +22,19 @@ export const flattenResponse = (rows) => {
         }
     })
 }
+
+export const applyFilters = (rows, filters) => {
+    return rows.filter((row) => {
+        const order_id = parseInt(filters.order_id);
+        if (order_id) {
+            return row.order_id === order_id;
+        }
+
+        const external_id = filters.external_id.toString();
+        if (external_id) {
+            return row.external_id.toString().includes(external_id);
+        }
+
+        return true;
+    });
+}
