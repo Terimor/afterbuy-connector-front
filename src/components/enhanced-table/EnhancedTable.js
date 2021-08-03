@@ -121,12 +121,55 @@ const EnhancedTable = (props) => {
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
+        console.log(event.target.value);
         setPage(0);
     };
 
     const isSelected = (key) => selected.indexOf(key) !== -1;
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const tableRows = () => {
+        let resultRows = stableSort(rows, getComparator(order, orderBy));
+
+        if (rowsPerPage) {
+            resultRows = resultRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+        }
+
+        return (
+            resultRows.map((row, index) => {
+                const isItemSelected = isSelected(index);
+                const labelId = `enhanced-table-checkbox-${index}`;
+
+                return (
+                    <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, index)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={index}
+                        selected={isItemSelected}
+                    >
+                        <TableCell padding="checkbox" align="center">
+                            <Checkbox
+                                checked={isItemSelected}
+                                inputProps={{'aria-labelledby': labelId}}
+                            />
+                        </TableCell>
+                        {columns.map((column, columnIndex) => (
+                            <TableCell key={columnIndex} align="center">{row[column.id]}</TableCell>
+                        ))}
+                    </TableRow>
+                );
+            })
+        );
+    }
+
+    const rowsPerPageOptions = () => [
+        {value: 5, label: '5'},
+        {value: 10, label: '10'},
+        {value: 25, label: '25'},
+        {value: rows.length ? rows.length : 1, label: 'All'}//TablePagination does not support 0 values, used 1 instead
+    ];
 
     return (
         <div className={classes.root}>
@@ -150,44 +193,12 @@ const EnhancedTable = (props) => {
                             headCells={columns}
                         />
                         <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const isItemSelected = isSelected(index);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, index)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={index}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell padding="checkbox" align="center">
-                                                <Checkbox
-                                                    checked={isItemSelected}
-                                                    inputProps={{'aria-labelledby': labelId}}
-                                                />
-                                            </TableCell>
-                                            {columns.map((column, columnIndex) => (
-                                                <TableCell key={columnIndex} align="center">{row[column.id]}</TableCell>
-                                            ))}
-                                        </TableRow>
-                                    );
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{height: 53 * emptyRows}}>
-                                    <TableCell colSpan={6}/>
-                                </TableRow>
-                            )}
+                            {tableRows()}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageOptions()}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
