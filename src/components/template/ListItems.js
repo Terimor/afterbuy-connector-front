@@ -10,39 +10,42 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import {Link} from "react-router-dom";
+import UploadFileToSort from "../upload-file-to-sort";
 
 export const mainListItems = (
     <div>
         <ListItem button>
             <ListItemIcon>
-                <DashboardIcon />
+                <DashboardIcon/>
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Dashboard"/>
         </ListItem>
         <ListItem button component={Link} to="/sold-items">
             <ListItemIcon>
-                <ShoppingCartIcon />
+                <ShoppingCartIcon/>
             </ListItemIcon>
-            <ListItemText primary="Sold Items" />
+            <ListItemText primary="Sold Items"/>
         </ListItem>
         <ListItem button component={Link} to="/categories">
             <ListItemIcon>
-                <CategoryIcon />
+                <CategoryIcon/>
             </ListItemIcon>
-            <ListItemText primary="Categories" />
+            <ListItemText primary="Categories"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <BarChartIcon />
+                <BarChartIcon/>
             </ListItemIcon>
-            <ListItemText primary="Reports" />
+            <ListItemText primary="Reports"/>
         </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
-        </ListItem>
+        <UploadFileToSort>
+            <ListItem button>
+                <ListItemIcon>
+                    <LayersIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Sort orders"/>
+            </ListItem>
+        </UploadFileToSort>
     </div>
 );
 
@@ -51,21 +54,21 @@ export const secondaryListItems = (
         <ListSubheader inset>Saved reports</ListSubheader>
         <ListItem button>
             <ListItemIcon>
-                <AssignmentIcon />
+                <AssignmentIcon/>
             </ListItemIcon>
-            <ListItemText primary="Current month" />
+            <ListItemText primary="Current month"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <AssignmentIcon />
+                <AssignmentIcon/>
             </ListItemIcon>
-            <ListItemText primary="Last quarter" />
+            <ListItemText primary="Last quarter"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <AssignmentIcon />
+                <AssignmentIcon/>
             </ListItemIcon>
-            <ListItemText primary="Year-end sale" />
+            <ListItemText primary="Year-end sale"/>
         </ListItem>
     </div>
 );

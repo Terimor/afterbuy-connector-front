@@ -7,4 +7,19 @@ const getAll = async () => {
     return data;
 }
 
-export default {getAll};
+const manualSort = async (file) => {
+    const formData = new FormData();
+
+    formData.append('file', file);
+
+    const {data} = await axios.post(`${baseUrl}/sold-items/manual-sort`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+        responseType: "blob"
+    });
+
+    return data;
+};
+
+export default {getAll, manualSort};
